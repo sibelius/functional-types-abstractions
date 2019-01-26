@@ -1,14 +1,13 @@
+# Functional Types Abstractions
 
-# mdx-deck basic template
-
-This was generated with [mdx-deck][]'s `npm init deck` command.
+Slides of my talk about Functional Types and Abstractions. This is based on awesome `mdx-deck`
 
 ## Development
 
 To run the presentation deck in development mode:
 
 ```sh
-npm start
+yarn start
 ```
 
 Edit the [`deck.mdx`](deck.mdx) file to get started.
@@ -18,19 +17,19 @@ Edit the [`deck.mdx`](deck.mdx) file to get started.
 To build the presentation deck as static HTML:
 
 ```sh
-npm run build
+yarn build
 ```
 
 To export a PDF:
 
 ```sh
-npm run pdf
+yarn pdf
 ```
 
 To export an image of the title slide:
 
 ```sh
-npm run image
+yarn image
 ```
 
 For more documentation see the [mdx-deck][] repo.
