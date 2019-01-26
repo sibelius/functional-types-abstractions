@@ -1,7 +1,10 @@
-import { Head } from 'mdx-deck'
+import { Head, Image } from 'mdx-deck'
+import Code from 'mdx-code';
+import { LiveCode } from 'mdx-deck-live-code';
 
 import { Cover } from './Cover';
 import { Intro } from './Intro';
+import { CustomImage } from './CustomImage';
 
 export { default as theme } from './theme'
 
@@ -17,7 +20,160 @@ export { default as theme } from './theme'
 
 ---
 
-# Hello
+export default Code
+
+```javascript Before Functions
+// sum items of an array
+const myArray = [1,2,3,4];
+let sum = 0;
+
+for(let i=0; i<myArray.length; i++) {
+   sum += myArray[i];
+}
+
+console.log('sum: ', sum);
+```
+
+---
+
+export default Code
+
+```javascript Before Functions
+const myArray = [1,2,3,4];
+
+// is this array monotolly
+let ascending = true;
+let isMonotonically = true;
+
+let item = myArray[0];
+for (let j = 1; j < myArray.length; j++) {
+    const nextItem = myArray[j];
+
+    if (ascending) {
+       if (item >= nextItem) {
+          isMonotonically = false;
+          break;
+      }
+    } else {
+       if (item <= nextItem) {
+        isMonotonically = false;
+        break;
+       }
+    }
+
+    item = nextItem;
+}
+console.log('isMonotonically: ', isMonotonically);
+```
+
+---
+
+> You can't write complex software without functions
+
+---
+
+export default Code
+
+```
+const arraySum = (array) => array.reduce((sum, item) => sum + item, 0);
+```
+```javascript After Functions
+// sum items of an array
+const myArray = [1,2,3,4];
+
+console.log('sum: ', arraySum(myArray))
+```
+
+---
+
+export default Code
+
+```
+const isArrayMonotonically = (array, isMonotonically) => {
+  let item = array[0];
+  for (let i = 1; i < array.length; i++) {
+    const nextItem = array[i];
+
+    if (!isMonotonically(item, nextItem)) {
+      return false;
+    }
+
+    item = nextItem;
+  }
+
+  return true;
+};
+```
+
+```javascript After Functions
+const myArray = [1,2,3,4];
+console.log('isMonotonically: ', isArrayMonotonically(myArray, (item, nextItem) => item < nextItem));
+```
+---
+
+## What is a Function
+
+- an abstraction
+- lazy reusable chunks of code
+- optional input (the arguments)
+- optional output (the return)
+- f(I) -> O
+
+---
+
+### JavaScript Abstraction Pyramid
+
+<CustomImage
+    src="img/abstraction-pyramid.png"
+    width={600}
+/>
+
+---
+
+## Pure Functions
+
+- same Input, same Output
+- no side effects
+- easy to test
+
+```jsx
+const add = (x, y) => x + y;
+```
+
+---
+## Immutability
+
+- predictable state
+- history
+- enable parallelization (no race condition)
+
+---
+> The true constant is change. Mutation hides change. Hidden change manifests chaos. Therefore, the wise embrace history.
+
+---
+## Types
+- Types are set of values
+- string: set of characters
+- int: set of numbers
+- date: set of datatime
+
+---
+
+## Category Theory: Functions + Types
+- Function have an Input and an Output type
+
+```javascript
+const sum = (a: number, b: number): number => a + b;
+```
+
+```javascript
+(number, number) => number
+```
+
+---
+## Function composition
+- you can't compose any 2 functions
+- the **Output** of one should match the **Input** of another
 
 ---
 
@@ -31,4 +187,33 @@ To create your presentation
 
 ---
 
+## References
+<https://github.com/fantasyland/fantasy-land>
+
+<https://github.com/gcanti/flow-static-land>
+
+<https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0>
+
+<https://medium.com/@matthiasak/state-of-the-union-js-d664bdbffd14>
+
+---
+
+## References
+<https://github.com/stoeffel/awesome-fp-js>
+
+<https://egghead.io/courses/professor-frisby-introduces-composable-functional-javascript>
+
+<https://staltz.com/javascript-getter-setter-pyramid.html>
+
 <https://github.com/jxnblk/mdx-deck>
+
+---
+
+## References
+<https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/>
+<https://medium.com/javascript-scene/the-dao-of-immutability-9f91a70c88cd>
+<https://medium.com/javascript-scene/master-the-javascript-interview-what-is-function-composition-20dfb109a1a0>
+<https://medium.com/javascript-scene/curry-and-function-composition-2c208d774983>
+
+---
+<Image src='img/fantasyland.png' size={100}/>
