@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
 import { space, width, fontSize, color } from 'styled-system';
-import Flex from './Flex';
 
 // Add styled-system functions to your component
 const Box = styled.div`
@@ -46,7 +45,7 @@ const Row = styled.div`
   margin-bottom: 40px;
 `;
 
-const Center = styled.div`
+export const Center = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
@@ -62,9 +61,9 @@ const SpaceBetween = styled.div`
   justify-content: space-between;
 `;
 
-const Root = styled.div([], {
+export const Root = styled.div([], {
   width: '50vw',
-  height: '50vh',
+  height: '70vh',
 });
 
 const Username = styled.span`
