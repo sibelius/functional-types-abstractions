@@ -1,10 +1,12 @@
 import { Head, Image } from 'mdx-deck'
 import Code from 'mdx-code';
 import { LiveCode } from 'mdx-deck-live-code';
+import { CodeSurfer } from "mdx-deck-code-surfer";
 
 import { Cover } from './Cover';
 import { Intro } from './Intro';
 import { CustomImage } from './CustomImage';
+import { DemoSlide} from './DemoSlide';
 
 export { default as theme } from './theme'
 
@@ -240,7 +242,6 @@ const fetchTokenTimeout =
    );
 ```
 ---
-
 export default Code
 
 ```
@@ -275,16 +276,40 @@ const fetchTokenTimeout = compose(
 )(fetch);
 ```
 ---
+export default Code
+
+```javascript Point Free Style
+const constraints = [
+    complement(eqBy(trim, '')),
+    propSatisfies(lte(8), 'length'),
+    both(test(/\w+/), test(/\d+/)),
+    converge(complement(equals), [toLower, identity]),
+    test(/[^a-z]+/)
+]
+
+export default juxt(constraints)
+    & reduce((count, pass) => count + Number(pass), 0)
+    & nth(__, [
+        ['no-password', ''],
+        ['worst', 'Please create a stronger password!'],
+        ['bad', 'Please create a stronger password!'],
+        ['weak', 'It\'s good, but you can do better!'],
+        ['good', 'Nice one!'],
+        ['strong', 'Awesome password!']
+    ])
+    & zipObj(['meterClass', 'meterMessage'])
+```
+---
 ## Higher Order Functions
 - A function that receive functions and return another function
 - Cross cutting concerns
 
 ---
-<LiveCode
+<CodeSurfer
   title="Higher Order Components"
-  size="large"
   code={require('!raw-loader!./hoc.js')}
-  errors={false}
+  showNumbers={false}
+  dark={true}
 />
 
 ---
@@ -406,6 +431,27 @@ const andFold = fold(and);
 console.log(andFold(rules));
 ```
 ---
+## Algebraic Data Types
+- Product Type
+- Sum Type
+---
+<CodeSurfer
+  title="Product Type"
+  lang="javascript"
+  code={require('!raw-loader!./samples/productType.js')} />
+---
+<CodeSurfer
+  title="Sum Type"
+  lang="javascript"
+  code={require('!raw-loader!./samples/sumType.js')} />
+---
+<div style={{fontSize: 18}}>
+<CodeSurfer
+  title="Pattern Matching"
+  lang="javascript"
+  code={require('!raw-loader!./samples/patternMatching.js')} />
+</div>
+---
 
 ## References
 [Fantasy Land](https://github.com/fantasyland/fantasy-land)
@@ -442,6 +488,10 @@ console.log(andFold(rules));
 [First class functions](https://en.wikipedia.org/wiki/First-class_function)
 
 [Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
+
+[Tiny Password strength](https://github.com/rung-tools/tiny-password-strength/blob/master/src/index.js)
+
+[Pragmatic Functional JavaScript](https://haskellcamargo.gitbooks.io/pragmatic-functional-javascript/)
 
 ---
 <Image src='img/fantasyland.png' size={100}/>

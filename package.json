@@ -22,5 +22,9 @@
     "copy:static": "cp -r src/img dist",
     "publish:deck": "yarn build && yarn copy:static && gh-pages -d dist",
     "start": "mdx-deck src/deck.mdx"
+  },
+  "dependencies": {
+    "codemirror": "^5.43.0",
+    "react-codemirror2": "^5.1.0"
   }
 }
