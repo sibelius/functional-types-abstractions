@@ -176,44 +176,272 @@ const sum = (a: number, b: number): number => a + b;
 - the **Output** of one should match the **Input** of another
 
 ---
+## First class functions
+- pass functions as arguments
+- store functions on variables
+- return functions from functions
+- anonymous functions
 
-## Edit this file
+---
 
-To create your presentation
+export default Code
 
-```notes
-- Create speaker notes in fenced code blocks
+```javascript Composing Functions
+// sum items of an array
+// f(g(x))
+// string -> ((any[]) -> Promise<any>) -> any[] -> Promise<any>
+const withToken = token => f => args => {
+  const headers = {
+    Authorization: token,
+    ...args.headers,
+  };
+
+  return f({
+    ...args,
+    headers,
+  });
+}
+
+const fetchWithToken = withToken('myToken')(fetch);
 ```
+---
+
+export default Code
+
+```
+const withToken = token => f => args => {
+  const headers = {
+    Authorization: token,
+    ...args.headers,
+  };
+
+  return f({
+    ...args,
+    headers,
+  });
+}
+``` 
+```javascript Composing Functions
+// sum items of an array
+// f(g(x))
+const timeout = ms => f => args =>
+  new Promise(async (resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('timeout'));
+    }, ms);
+    f(args).then(resolve, reject);
+  });
+
+const fetchTokenTimeout = 
+   timeout(1000)(
+     withToken('myToken')(
+       fetch
+     );
+   );
+```
+---
+
+export default Code
+
+```
+const withToken = token => f => args => {
+  const headers = {
+    Authorization: token,
+    ...args.headers,
+  };
+
+  return f({
+    ...args,
+    headers,
+  });
+}
+
+const timeout = ms => f => args =>
+  new Promise(async (resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('timeout'));
+    }, ms);
+    f(args).then(resolve, reject);
+  });
+``` 
+```javascript Composing Functions - compose
+// sum items of an array
+// f(g(x))
+const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
+
+const fetchTokenTimeout = compose(
+  timeout(1000),
+  withToken('myToken')
+)(fetch);
+```
+---
+## Higher Order Functions
+- A function that receive functions and return another function
+- Cross cutting concerns
+
+---
+<LiveCode
+  title="Higher Order Components"
+  size="large"
+  code={require('!raw-loader!./hoc.js')}
+  errors={false}
+/>
+
+---
+export default Code
+
+```javascript Curry, Partial Application
+// a function that accepts one argument at a time
+const addNotCurried = (x, y) => x + y;
+
+// curried version
+const add = x => y => x + y;
+
+// partial application
+const add2 = add(2);
+const fivePlusTwo = add2(5);
+```
+---
+## Fantasy Land
+
+<CustomImage
+    src="img/fantasyland-graph.png"
+    width={900}
+/>
+---
+export default Code
+
+```javascript Setoid
+// a type that has equals method, it can be compared
+const a = 1;
+const b = 1;
+
+const equals = (a,b) => a === b;
+
+console.log(equals(a,b), equals(b,a));
+```
+---
+export default Code
+
+```javascript Ord
+// a type that has lte method, it can be ordered
+const a = 1;
+const b = 2;
+
+const lte = (a, b) => a <= b;
+
+console.log(lte(a, b), !lte(b, a));
+```
+---
+export default Code
+
+```javascript Semigroup
+// a type that has concat method, it can join two parts
+const a = [1,2,3];
+const b = [4,5,6];
+
+const concat = (a, b) => [...a, ...b];
+
+console.log(concat(a, b));
+```
+---
+export default Code
+
+```javascript Monoid
+// a type that has an empty
+const or = {
+  concat: (a, b) => a || b,
+  empty: () => false,
+};
+
+const and = {
+  concat: (a, b) => a && b,
+  empty: () => true,
+};
+
+console.log(and.concat(false, and.empty()));
+```
+---
+export default Code
+
+```javascript Filterable
+// a type that has a filter method
+const a = [1, 2, 3];
+
+const filter = f => a => a.filter(f);
+
+const isEven = x => x % 2 === 0;
+
+console.log(filter(isEven)(a));
+```
+---
+export default Code
+
+```javascript Functor
+// a type that has a map method
+const a = [1, 2, 3];
+
+const filter = f => a => a.filter(f);
+
+const timesThree = x => x * 3;
+
+console.log(a.map(timesThree));
+```
+---
+export default Code
+
+```javascript Foldable
+// a type that has a reduce method
+const rules = [true, true, true, false];
+
+const and = {
+  concat: (a, b) => a && b,
+  empty: () => true,
+};
+
+const fold = monoid => arr => arr.reduce((acc, item) => monoid.concat(acc, item), monoid.empty());
+
+const andFold = fold(and);
+
+console.log(andFold(rules));
+```
+---
+
+## References
+[Fantasy Land](https://github.com/fantasyland/fantasy-land)
+
+[Flow Static Land](https://github.com/gcanti/flow-static-land)
+
+[Functional Programming](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0)
+
+[State of Union JS](https://medium.com/@matthiasak/state-of-the-union-js-d664bdbffd14)
 
 ---
 
 ## References
-<https://github.com/fantasyland/fantasy-land>
+[Awesome FP JS](https://github.com/stoeffel/awesome-fp-js)
 
-<https://github.com/gcanti/flow-static-land>
+[Professor Frisby](https://egghead.io/courses/professor-frisby-introduces-composable-functional-javascript)
 
-<https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0>
+[Abstraction Pyramid](https://staltz.com/javascript-getter-setter-pyramid.html)
 
-<https://medium.com/@matthiasak/state-of-the-union-js-d664bdbffd14>
-
----
-
-## References
-<https://github.com/stoeffel/awesome-fp-js>
-
-<https://egghead.io/courses/professor-frisby-introduces-composable-functional-javascript>
-
-<https://staltz.com/javascript-getter-setter-pyramid.html>
-
-<https://github.com/jxnblk/mdx-deck>
+[MDX-Deck](https://github.com/jxnblk/mdx-deck)
 
 ---
-
 ## References
-<https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/>
-<https://medium.com/javascript-scene/the-dao-of-immutability-9f91a70c88cd>
-<https://medium.com/javascript-scene/master-the-javascript-interview-what-is-function-composition-20dfb109a1a0>
-<https://medium.com/javascript-scene/curry-and-function-composition-2c208d774983>
+[Category Theory for Programmers](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/)
+
+[The Dao of Immutability](https://medium.com/javascript-scene/the-dao-of-immutability-9f91a70c88cd)
+
+[Function composition](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-function-composition-20dfb109a1a0)
+
+[Curry and Function composition](https://medium.com/javascript-scene/curry-and-function-composition-2c208d774983)
+
+---
+## References
+[First class functions](https://en.wikipedia.org/wiki/First-class_function)
+
+[Higher Order Component](https://reactjs.org/docs/higher-order-components.html)
 
 ---
 <Image src='img/fantasyland.png' size={100}/>
