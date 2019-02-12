@@ -7,6 +7,8 @@ import { Cover } from './Cover';
 import { Intro } from './Intro';
 import { CustomImage } from './CustomImage';
 import { DemoSlide} from './DemoSlide';
+import { Feedback } from './Feedback';
+import { Thanks } from './Thanks';
 
 export { default as theme } from './theme'
 
@@ -222,7 +224,7 @@ const withToken = token => f => args => {
     headers,
   });
 }
-``` 
+```
 ```javascript Composing Functions
 // sum items of an array
 // f(g(x))
@@ -234,7 +236,7 @@ const timeout = ms => f => args =>
     f(args).then(resolve, reject);
   });
 
-const fetchTokenTimeout = 
+const fetchTokenTimeout =
    timeout(1000)(
      withToken('myToken')(
        fetch
@@ -264,7 +266,7 @@ const timeout = ms => f => args =>
     }, ms);
     f(args).then(resolve, reject);
   });
-``` 
+```
 ```javascript Composing Functions - compose
 // sum items of an array
 // f(g(x))
@@ -493,5 +495,9 @@ console.log(andFold(rules));
 
 [Pragmatic Functional JavaScript](https://haskellcamargo.gitbooks.io/pragmatic-functional-javascript/)
 
+---
+<Thanks />
+---
+<Feedback />
 ---
 <Image src='img/fantasyland.png' size={100}/>
